@@ -20,6 +20,7 @@ fi
 
 sudo -H composer self-update &>/dev/null
 composer create-project laravel/laravel $PROJECT
+
 cd $PROJECT
 
 test ! -d database && mkdir database
@@ -76,7 +77,7 @@ if command -v tmux &> /dev/null; then
 fi
 
 
-if [ -d .git ]; then
+if [ -d .git ] && [ ! -f .git/hooks/post-commit ]; then
     curl -s -L https://git.io/JzKB2 -o .git/hooks/post-commit
     chmod +x .git/hooks/post-commit
     git config --local commit.template .commit
