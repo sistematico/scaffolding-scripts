@@ -36,7 +36,7 @@ php artisan migrate
 php artisan key:generate
 
 mkdir -p .vscode .github/workflows
-curl -s -L https://git.io/JzKBl -o .vscode/tasks.json
+curl -s -L https://raw.githubusercontent.com/sistematico/scaffolding-scripts/main/laravel-inertia-vue/stubs/.vscode/tasks.json -o .vscode/tasks.json
 curl -s -L https://git.io/Ji8nf -o .github/workflows/laravel.yml
 
 if command -v tmux &> /dev/null; then
