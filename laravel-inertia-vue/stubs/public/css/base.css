@@ -1,9 +1,8 @@
-html,
-body {
+html {
   height: 100%;
 }
 
-#app {
+body, #app {
   display: flex;
   flex-direction: column;
   height: 100%;
