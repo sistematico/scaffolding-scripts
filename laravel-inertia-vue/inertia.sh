@@ -9,25 +9,35 @@
 # Atualizado: 25/01/2022 10:04:47
 
 TMUX_SESSION="Inertia"
-REGEX="^[a-zA-Z0-9.-]+$"
+REGEX="[^a-zA-Z0-9_\-]"
+
+read -p "O nome do diretório do projeto: " PROJECT
+
+if [ -z "$PROJECT" ] || [[ "$PROJECT" =~ $REGEX ]]; then
+    echo "Diretório inválido."
+    exit 1
+fi
 
 sudo -H composer self-update &>/dev/null
-
-composer create-project laravel/laravel $DIR
-
-cd $DIR
+composer create-project laravel/laravel $PROJECT
+cd $PROJECT
 
 test ! -d database && mkdir database
 test -f database/database.sqlite || touch database/database.sqlite
 
-curl -s -L https://git.io/Jilxo -o .env
-curl -s -L https://git.io/Jilxi -o .env.example
+curl -s -L https://raw.githubusercontent.com/sistematico/scaffolding-scripts/main/laravel-inertia-vue/stubs/.env -o .env
+curl -s -L https://raw.githubusercontent.com/sistematico/scaffolding-scripts/main/laravel-inertia-vue/stubs/.env.example -o .env.example
 
 composer require laravel/jetstream
 php artisan jetstream:install inertia 
         
 composer require nascent-africa/jetstrap --dev
 php artisan jetstrap:swap inertia
+
+curl -s -L https://raw.githubusercontent.com/sistematico/scaffolding-scripts/main/laravel-inertia-vue/stubs/webpack.mix.js -o webpack.mix.js
+curl -s -L https://raw.githubusercontent.com/sistematico/scaffolding-scripts/main/laravel-inertia-vue/stubs/resources/js/app.js -o resources/js/app.js
+curl -s -L https://raw.githubusercontent.com/sistematico/scaffolding-scripts/main/laravel-inertia-vue/stubs/resources/js/Layouts/BaseLayout.vue -o resources/js/Layouts/BaseLayout.vue
+curl -s -L https://raw.githubusercontent.com/sistematico/scaffolding-scripts/main/laravel-inertia-vue/stubs/public/css/base.css -o public/css/base.css
 
 npm install
 npm run dev
