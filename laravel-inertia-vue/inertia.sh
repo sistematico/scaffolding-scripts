@@ -19,7 +19,7 @@ if [ -z "$PROJECT" ] || [[ "$PROJECT" =~ $REGEX ]]; then
 fi
 
 sudo -H composer self-update &>/dev/null
-composer create-project laravel/laravel $PROJECT
+composer create-project laravel/laravel $PROJECT &>/dev/null
 
 cd $PROJECT
 
