@@ -46,7 +46,8 @@ npm run dev
 php artisan migrate
 php artisan key:generate
 
-mkdir -p .vscode .github/workflows
+mkdir -p .vscode .github/workflows 2> /dev/null
+
 curl -s -L https://raw.githubusercontent.com/sistematico/scaffolding-scripts/main/laravel-inertia-vue/stubs/.vscode/tasks.json -o .vscode/tasks.json
 curl -s -L https://raw.githubusercontent.com/sistematico/scaffolding-scripts/main/laravel-inertia-vue/stubs/.github/workflows/laravel.yml -o .github/workflows/laravel.yml
 

@@ -1,28 +1,29 @@
 require('./bootstrap');
 
-// Import modules...
-import { createApp, h } from 'vue';
-import { createInertiaApp } from '@inertiajs/inertia-vue3';
-import { InertiaProgress } from '@inertiajs/progress';
+import { createApp, h } from 'vue'
+import { createInertiaApp } from '@inertiajs/inertia-vue3'
+import { InertiaProgress } from '@inertiajs/progress'
 import BaseLayout from './Layouts/BaseLayout'
 
-const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Laravel';
+const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Laravel'
 
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
     resolve: name => {
         const page = require(`./Pages/${name}`).default
-        if (page.layout === undefined && !name.startsWith('Auth/') && name !== 'Welcome') {
+
+        if (page.layout === undefined) {
             page.layout = BaseLayout
         }
+
         return page
     },
     setup({ el, app, props, plugin }) {
         return createApp({ render: () => h(app, props) })
             .use(plugin)
             .mixin({ methods: { route } })
-            .mount(el);
-    },
-});
+            .mount(el)
+    }
+})
 
-InertiaProgress.init({ color: '#4B5563' });
+InertiaProgress.init({ color: '#4B5563' })
