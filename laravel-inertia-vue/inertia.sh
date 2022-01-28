@@ -5,16 +5,16 @@
 # Mais um script feito com ❤️ por: 
 # - "Lucas Saliés Brum" <lucas@archlinux.com.br>
 # 
-# Criado em: 23/09/2021 01:33:12
-# Atualizado: 25/01/2022 10:04:47
+# Created on: 23/09/2021 01:33:12
+# Updated on: 28/01/2022 13:51:43
 
 TMUX_SESSION="Inertia"
 REGEX="[^a-zA-Z0-9_\-]"
 
-read -p "O nome do diretório do projeto: " PROJECT
+read -p "Project directory: " PROJECT
 
 if [ -z "$PROJECT" ] || [[ "$PROJECT" =~ $REGEX ]]; then
-    echo "Diretório inválido."
+    echo "Invalid directory."
     exit 1
 fi
 
@@ -83,7 +83,7 @@ if [ -d .git ] && [ ! -f .git/hooks/post-commit ]; then
     git config --local commit.template .commit
 
     if [ ! -f .commit ] || [ ! -s .commit ]; then
-        echo "Update automático" > .commit
+        echo "Automatic update" > .commit
     fi
 
     if [ ! -f .gitignore ] || [ ! -s .gitignore ]; then
