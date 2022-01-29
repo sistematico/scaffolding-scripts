@@ -12,6 +12,8 @@
 
 [ -z "$USER" ] || [ -z "$REPO" ] || [ -z "$EMAIL" ] || [ -z "$TOKEN" ] && exit
 
+[ -z "$DIR" ] && DIR="/var/www"
+
 [ ! -d ${DIR}/${REPO} ] && git clone git@github.com:${USER}/${REPO}.git ${DIR}/${REPO}
 
 curl -sL \
