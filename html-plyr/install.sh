@@ -5,8 +5,10 @@
 # Mais um script feito com ❤️ por: 
 # - "Lucas Saliés Brum" <lucas@archlinux.com.br>
 # 
-# Created on: 29/01/2022 10:12:26
-# Updated on: 29/01/2022 10:12:29
+# Created on: 29/01/2022 10:56:30
+# Updated on: 29/01/2022 10:56:33
+
+[ -f .env ] && . .env
 
 [ -z "$USER" ] || [ -z "$REPO" ] || [ -z "$EMAIL" ] || [ -z "$TOKEN" ] && exit
 
@@ -31,4 +33,14 @@ if [ ! -f /etc/letsencrypt/live/${REPO}/fullchain.pem ] && [ ! -f /etc/letsencry
     certbot certonly -n -m "${EMAIL}" --agree-tos --dns-cloudflare --dns-cloudflare-credentials /etc/cloudflare.ini -d "${REPO}"
 fi
 
+[ -z "$PW" ] && PW="toor"
+
+pass=$(perl -e 'print crypt($ARGV[0], "password")' "$PW")
+if ! id "nginx" &>/dev/null; then
+    useradd -m -p "$pass" -d /home/nginx -s /bin/bash -c "Nginx System User" -U nginx
+else
+    usermod -m -p "$pass" -d /home/nginx -s /bin/bash -c "Nginx System User" nginx
+fi
+
+chown -R nginx:nginx /var/www
 systemctl restart nginx
