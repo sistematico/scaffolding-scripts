@@ -8,16 +8,26 @@
 # Created on: 29/01/2022 10:56:30
 # Updated on: 29/01/2022 10:56:33
 
-[ -f .env ] && . .env
+if [ -f .env ]; then
+    . .env 
+else
+    echo ".env file missing."
+    exit 1
+fi
 
 [ -z "$USER" ] || [ -z "$REPO" ] || [ -z "$EMAIL" ] || [ -z "$TOKEN" ] && exit
 
 [ -z "$DIR" ] && DIR="/var/www"
 
-[ ! -d ${DIR}/${REPO} ] && git clone git@github.com:${USER}/${REPO}.git ${DIR}/${REPO}
+if [ ! -d ${DIR}/${REPO} ]; then
+    git clone git@github.com:${USER}/${REPO}.git ${DIR}/${REPO}
+else
+    cd ${DIR}/${REPO}
+    git pull
+fi
 
 curl -sL \
-    'https://raw.githubusercontent.com/sistematico/scaffolding-scripts/main/html-plyr/stubs/nginx.conf' \
+    'https://raw.githubusercontent.com/sistematico/scaffolding-scripts/main/html-plyr/html-plyr/stubs/etc/nginx/sites-available/nginx.conf' \
     | sed -e "s|SITE_NAME|$REPO|" > /etc/nginx/sites-available/${REPO}
 
 ln -sf /etc/nginx/sites-available/${REPO} /etc/nginx/sites-enabled/${REPO}
